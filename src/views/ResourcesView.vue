@@ -1,6 +1,5 @@
 <template>
     <HeroSection/>
-    
     <SubscribeSection/>
     <Footer/>
   </template>
