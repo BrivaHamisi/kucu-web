@@ -1,25 +1,117 @@
-
 <template>
-    <!-- Hero Section Start -->
-    <div class="container mx-auto px-5 overflow-x-hidden lg:overflow-x-visible">
-        <section class="grid grid-cols-none lg:grid-cols-2 pb-16 pt-8 items-center">
-            <div class="lg:w-5/6 order-2 lg:order-none">
-                <h1 class="text-4xl xl:text-5xl font-bold font-theme-heading text-center lg:text-left">A Simple Bookmark Manager</h1>
-                <p class="lg:text-xl mt-10 font-theme-content text-theme-grayish-blue text-center lg:text-left">A clean and simple interface to organize your favourite websites. Open a new browser tab and see your sites load instantly. Try it for free.</p>
-                <div class="flex justify-center lg:justify-start mt-10">
-                    <LinkButton btn-type="primary" link="#download-section">Get It On Chrome</LinkButton>
-                    <LinkButton btn-type="muted" link="#download-section">Get It On Firefox</LinkButton>
-                </div>
+    <div class="w-full bg-gray-100">
+      <div class="relative w-full h-[28rem] sm:h-[32rem] md:h-[40rem] lg:h-[48rem] overflow-hidden">
+        <div 
+          class="absolute top-0 left-0 w-full h-full flex transition-transform duration-300 ease-in-out"
+          :style="{ transform: `translateX(-${currentIndex * 100}%)` }"
+        >
+          <div 
+            v-for="(item, index) in items" 
+            :key="index"
+            class="w-full h-full flex-shrink-0 relative"
+          >
+            <img :src="item.imageSrc" :alt="item.topic" class="w-full h-full object-cover" />
+          </div>
+        </div>
+        <div class="absolute inset-0 bg-gradient-to-r from-[#2e3192] via-[#2e3192]/50 to-transparent">
+          <div class="container mx-auto px-4 sm:px-6 lg:px-8 h-full flex flex-col justify-center">
+            <div class="max-w-3xl">
+              <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6 text-white">{{ items[currentIndex].topic }}</h2>
+              <p class="text-lg sm:text-xl mb-6 sm:mb-8 text-white">{{ items[currentIndex].description }}</p>
+              <button class="bg-[#cd3700] hover:bg-[#cd3700]/80 text-white text-lg font-bold py-3 px-8 rounded transition duration-300">
+                {{ items[currentIndex].buttonText }}
+              </button>
             </div>
-            <div class="relative order-1 lg:order-none mb-20 lg:mt-0 lg:mb-0 lg:-mr-10">
-                <img class="z-10 w-full" src="/images/illustration-hero.svg" />
-                <div class="-z-10 bg-theme-primary h-52 w-full sm:h-80 sm:w-full rounded-l-full absolute -right-28 md:-right-48 -bottom-8"></div>
-            </div>
-        </section>
+          </div>
+        </div>
+        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-3">
+          <button
+            v-for="(_, index) in items"
+            :key="index"
+            @click="goToSlide(index)"
+            :class="[ 
+              'w-3 h-3 rounded-full transition-all duration-300',
+              index === currentIndex ? 'bg-white scale-110' : 'bg-white/50 hover:bg-white/75'
+            ]"
+            :aria-label="`Go to slide ${index + 1}`"
+          />
+        </div>
+      </div>
     </div>
-    <!-- Hero Section End -->
-</template>
-
-<script setup>
-  import LinkButton from './LinkButton.vue'
-</script>
+  </template>
+  
+  <script>
+  import { ref, onMounted, onUnmounted, watch } from 'vue';
+  
+  export default {
+    name: 'StandardWebsiteCarousel',
+    props: {
+      autoSlideInterval: {
+        type: Number,
+        default: 5000
+      }
+    },
+    setup(props) {
+      const currentIndex = ref(0);
+      const isAnimating = ref(false);
+      let intervalId = null;
+  
+      const items = [
+        { 
+          imageSrc: "/api/placeholder/1600/900?text=Experience+the+Future&bg=3b82f6&textcolor=ffffff", 
+          topic: "Experience the Future",
+          description: "Join us for an exciting upcoming event that will shape the future of technology.",
+          buttonText: "Register Now" 
+        },
+        { 
+          imageSrc: "/api/placeholder/1600/900?text=Introducing+Innovation&bg=10b981&textcolor=ffffff", 
+          topic: "Introducing Innovation",
+          description: "Discover our latest breakthrough product that's revolutionizing the industry.",
+          buttonText: "Learn More" 
+        },
+        { 
+          imageSrc: "/api/placeholder/1600/900?text=Explore+the+World&bg=f59e0b&textcolor=ffffff", 
+          topic: "Explore the World",
+          description: "Embark on unforgettable journeys with our exclusive travel packages.",
+          buttonText: "Book Now" 
+        }
+      ];
+  
+      const nextSlide = () => {
+        if (!isAnimating.value) {
+          isAnimating.value = true;
+          currentIndex.value = (currentIndex.value + 1) % items.length;
+        }
+      };
+  
+      const goToSlide = (index) => {
+        if (!isAnimating.value && index !== currentIndex.value) {
+          isAnimating.value = true;
+          currentIndex.value = index;
+        }
+      };
+  
+      watch(currentIndex, () => {
+        setTimeout(() => {
+          isAnimating.value = false;
+        }, 300);
+      });
+  
+      onMounted(() => {
+        intervalId = setInterval(nextSlide, props.autoSlideInterval);
+      });
+  
+      onUnmounted(() => {
+        if (intervalId) {
+          clearInterval(intervalId);
+        }
+      });
+  
+      return {
+        currentIndex,
+        goToSlide,
+        items
+      };
+    }
+  };
+  </script>

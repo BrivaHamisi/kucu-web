@@ -1,10 +1,11 @@
 <template>
   <div class="home">
     <HeroSection/>
-    <LandingSection/>
+    <!-- <LandingSection/> -->
     <FeatureSection/>
-    <FaqSection/>
-    <SubscribeSection/>
+    <!-- <FaqSection/> -->
+    <!-- <SubscribeSection/> -->
+     <BlogsandInspiration/>
     <Footer/>
   </div>
 </template>
@@ -14,9 +15,7 @@
 import Footer from '../components/Footer.vue';
 import HeroSection from '../components/HeroSection.vue'
 import FeatureSection from '../components/MissionVisionSection.vue'
-import SubscribeSection from '../components/SubscribeSection.vue'
-import FaqSection from '../components/FaqSection.vue'
-import LandingSection from '../components/LandingSection.vue';
+import BlogsandInspiration from '../components/BlogsandInspiration.vue'
 
 
 export default {
@@ -24,10 +23,8 @@ export default {
   components: {
     HeroSection,
     Footer,
+    BlogsandInspiration,
     FeatureSection,
-    SubscribeSection,
-    FaqSection,
-    LandingSection
   }
 }
 </script>

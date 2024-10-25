@@ -62,10 +62,10 @@
             <li class="hover:text-theme-secondary transition duration-200 py-4 border-b border-theme-grayish-blue w-full text-center">
               <router-link @click="toggleMobileNav" :to="{ name: 'committees' }">Committees</router-link>
             </li>
-            <li class="hover:text-theme-secondary transition duration-200 py-4 border-b border-theme-grayish-blue w-full text-center">
+            <li class="hover:bg-[#cd3700] transition duration-200 py-4 border-b border-theme-grayish-blue w-full text-center">
               <router-link @click="toggleMobileNav" :to="{ name: 'contact-us' }">Contact Us</router-link>
             </li>
-            <li class="bg-transparent border-2 rounded px-6 py-2 mt-6 w-full text-center cursor-pointer hover:text-theme-secondary transition duration-200">
+            <li class="bg-[#cd3700] hover:bg-[#cd3700]/80 border-2 rounded px-6 py-2 mt-6 w-full text-center cursor-pointer transition duration-200">
               <router-link @click="toggleMobileNav" to="#">Register</router-link>
             </li>
           </ul>

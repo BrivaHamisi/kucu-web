@@ -1,7 +1,7 @@
 const features = [
     {
         id: 1,
-        name: "Simple Bookmaring",
+        name: "Our Mission",
         details: {
             imageUrl: "images/illustration-features-tab-1.svg",
             title: "Bookmark in one click",
@@ -11,7 +11,7 @@ const features = [
     },
     {
         id: 2,
-        name: "Speedy Searching",
+        name: "Vision",
         details: {
             imageUrl: "images/illustration-features-tab-2.svg",
             title: "Intelligent search",
@@ -21,7 +21,7 @@ const features = [
     },
     {
         id: 3,
-        name: "Speedy Sharing",
+        name: "Core Values",
         details: {
             imageUrl: "images/illustration-features-tab-3.svg",
             title: "Easy sharing",
