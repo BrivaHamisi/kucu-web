@@ -1,11 +1,10 @@
 <template>
   <div class="home">
     <HeroSection/>
-    <!-- <LandingSection/> -->
     <FeatureSection/>
-    <!-- <FaqSection/> -->
-    <!-- <SubscribeSection/> -->
+    <Gallery/>
      <BlogsandInspiration/>
+     <ContactUs/>
     <Footer/>
   </div>
 </template>
@@ -16,6 +15,8 @@ import Footer from '../components/Footer.vue';
 import HeroSection from '../components/HeroSection.vue'
 import FeatureSection from '../components/MissionVisionSection.vue'
 import BlogsandInspiration from '../components/BlogsandInspiration.vue'
+import Gallery from '../components/Gallery.vue'
+import ContactUs from '../components/ContactUs.vue'
 
 
 export default {
@@ -24,7 +25,9 @@ export default {
     HeroSection,
     Footer,
     BlogsandInspiration,
+    Gallery,
     FeatureSection,
+    ContactUs
   }
 }
 </script>

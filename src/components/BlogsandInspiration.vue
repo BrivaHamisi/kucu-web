@@ -10,7 +10,7 @@
               <div class="p-6">
                 <h4 class="text-xl font-semibold text-indigo-700 mb-3">{{ post.title }}</h4>
                 <p class="text-gray-600 text-sm mb-4">{{ post.excerpt }}</p>
-                <button class="bg-[#cd3700] text-white px-6 py-2 rounded-full font-semibold text-sm hover:bg-[#cd3700]/90 transition duration-300 shadow-md hover:shadow-lg">More</button>
+                <button class="bg-[#cd3700] text-white px-6 py-2 rounded-md font-semibold text-sm hover:bg-[#cd3700]/90 transition duration-300 shadow-md hover:shadow-lg">More</button>
               </div>
             </div>
           </Slide>
