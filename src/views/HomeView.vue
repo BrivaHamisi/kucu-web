@@ -4,6 +4,7 @@
     <FeatureSection/>
     <Gallery/>
      <BlogsandInspiration/>
+     <Testimonies/>
      <ContactUs/>
     <Footer/>
   </div>
@@ -17,6 +18,7 @@ import FeatureSection from '../components/MissionVisionSection.vue'
 import BlogsandInspiration from '../components/BlogsandInspiration.vue'
 import Gallery from '../components/Gallery.vue'
 import ContactUs from '../components/ContactUs.vue'
+import Testimonies from '../components/Testimonies.vue'
 
 
 export default {
@@ -27,7 +29,8 @@ export default {
     BlogsandInspiration,
     Gallery,
     FeatureSection,
-    ContactUs
+    ContactUs,
+    Testimonies
   }
 }
 </script>
