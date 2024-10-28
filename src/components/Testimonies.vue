@@ -28,7 +28,7 @@
                 </div>
                 <p class="text-gray-600 mb-6">Enim minim veniam, quis nostrud exercit ullamco laboris nisi ut aliquip ex ea commodo consequat duis aute irure dolor in reprehend.</p>
                 <div class="flex items-center">
-                  <img src="/path-to-avatar.jpg" alt="Dave Anthony" class="w-10 h-10 rounded-full mr-3">
+                  <img src="/images/avatar.png" alt="Dave Anthony" class="w-10 h-10 rounded-full mr-3">
                   <div>
                     <h4 class="font-medium">Dave Anthony</h4>
                     <p class="text-sm text-gray-500">Product Designer</p>
@@ -47,7 +47,7 @@
                   </div>
                   <p class="text-gray-600 mb-6">Enim minim veniam, quis nostrud exercit ullamco laboris nisi ut aliquip ex ea commodo.</p>
                   <div class="flex items-center">
-                    <img src="/path-to-avatar.jpg" alt="Pat Harrison" class="w-10 h-10 rounded-full mr-3">
+                    <img src="/images/avatar.png" alt="Pat Harrison" class="w-10 h-10 rounded-full mr-3">
                     <div>
                       <h4 class="font-medium">Pat Harrison</h4>
                       <p class="text-sm text-gray-500">UX Researcher</p>
@@ -63,7 +63,7 @@
                   </div>
                   <p class="text-gray-600 mb-6">Quis nostrud exercit ullamco laboris nisi ut aliquip ex ea commodo.</p>
                   <div class="flex items-center">
-                    <img src="/path-to-avatar.jpg" alt="Monica" class="w-10 h-10 rounded-full mr-3">
+                    <img src="/images/avatar.png" alt="Monica" class="w-10 h-10 rounded-full mr-3">
                     <div>
                       <h4 class="font-medium">Monica</h4>
                       <p class="text-sm text-gray-500">Content Strategist</p>
@@ -84,7 +84,7 @@
                 </div>
                 <p class="text-gray-600 mb-6">Enim minim veniam, quis nostrud exercit ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
                 <div class="flex items-center">
-                  <img src="/path-to-avatar.jpg" alt="Alex Klein" class="w-10 h-10 rounded-full mr-3">
+                  <img src="/images/avatar.png" alt="Alex Klein" class="w-10 h-10 rounded-full mr-3">
                   <div>
                     <h4 class="font-medium">Alex Klein</h4>
                     <p class="text-sm text-gray-500">Software Engineer</p>
@@ -102,7 +102,7 @@
                   </div>
                   <p class="text-gray-600 mb-6">Enim minim veniam, quis nostrud exercit ullamco laboris nisi ut aliquip ex ea commodo.</p>
                   <div class="flex items-center">
-                    <img src="/path-to-avatar.jpg" alt="Jessica Lee" class="w-10 h-10 rounded-full mr-3">
+                    <img src="/images/avatar.png" alt="Jessica Lee" class="w-10 h-10 rounded-full mr-3">
                     <div>
                       <h4 class="font-medium">Jessica Lee</h4>
                       <p class="text-sm text-gray-500">Marketing Lead</p>
@@ -118,7 +118,7 @@
                   </div>
                   <p class="text-gray-600 mb-6">Enim minim veniam, quis nostrud exercit ullamco laboris nisi ut aliquip ex ea commodo.</p>
                   <div class="flex items-center">
-                    <img src="/path-to-avatar.jpg" alt="Sarah" class="w-10 h-10 rounded-full mr-3">
+                    <img src="/images/avatar.png" alt="Sarah" class="w-10 h-10 rounded-full mr-3">
                     <div>
                       <h4 class="font-medium">Sarah</h4>
                       <p class="text-sm text-gray-500">UI Designer</p>
@@ -137,6 +137,3 @@
   // You can add reactive data here if needed
   </script>
   
-  <style scoped>
-  /* Add any custom styles here */
-  </style>
