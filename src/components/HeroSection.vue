@@ -64,13 +64,13 @@
           buttonText: "Register Now" 
         },
         { 
-          imageSrc: "/api/placeholder/1600/900?text=Introducing+Innovation&bg=10b981&textcolor=ffffff", 
+          imageSrc: "/images/HeroImages1.jpg", 
           topic: "Introducing Innovation",
           description: "Discover our latest breakthrough product that's revolutionizing the industry.",
           buttonText: "Learn More" 
         },
         { 
-          imageSrc: "/api/placeholder/1600/900?text=Explore+the+World&bg=f59e0b&textcolor=ffffff", 
+          imageSrc: "/images/HeroImages2.jpg", 
           topic: "Explore the World",
           description: "Embark on unforgettable journeys with our exclusive travel packages.",
           buttonText: "Book Now" 
