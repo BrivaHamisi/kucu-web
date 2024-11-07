@@ -58,7 +58,7 @@
   
       const items = [
         { 
-          imageSrc: "/api/placeholder/1600/900?text=Experience+the+Future&bg=3b82f6&textcolor=ffffff", 
+          imageSrc: "/images/HeroImages.jpg", 
           topic: "Experience the Future",
           description: "Join us for an exciting upcoming event that will shape the future of technology.",
           buttonText: "Register Now" 
