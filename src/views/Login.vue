@@ -2,10 +2,7 @@
   <div class="min-h-screen w-full fixed inset-0 flex justify-center items-center bg-gradient-to-br from-gray-900 via-gray-800 to-black">
     <div class="w-full mx-6 my-8 sm:my-8 sm:mx-8 md:mx-auto flex flex-col sm:flex-row max-w-3xl lg:max-w-4xl shadow-2xl rounded-xl relative">
       <!-- Close Button -->
-      <button 
-        @click="handleClose"
-        class="absolute -top-4 -right-4 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100 z-10"
-      >
+      <button @click="handleClose" class="absolute -top-4 -right-4 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100 z-10">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
         </svg>
@@ -14,18 +11,14 @@
       <div class="w-full sm:w-1/2 bg-white p-8 sm:p-10 md:p-12 lg:p-14 rounded-t-xl sm:rounded-l-xl sm:rounded-tr-none backdrop-blur-lg bg-opacity-95">
         <div class="space-y-6">
           <div class="text-center sm:text-left">
-            <h1 class="text-2xl font-bold mb-2 md:text-3xl lg:text-4xl bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
-              Welcome Back
-            </h1>
+            <h1 class="text-2xl font-bold mb-2 md:text-3xl lg:text-4xl bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">Welcome Back</h1>
             <p class="text-gray-500">Sign in to your account</p>
           </div>
           
           <form @submit.prevent="handleSubmit" class="space-y-6">
             <!-- Email Field -->
             <div class="space-y-2">
-              <label for="email" class="block text-gray-700 font-medium text-sm uppercase tracking-wide">
-                Email
-              </label>
+              <label for="email" class="block text-gray-700 font-medium text-sm uppercase tracking-wide">Email</label>
               <div class="relative">
                 <input
                   type="email"
@@ -54,9 +47,7 @@
 
             <!-- Password Field -->
             <div class="space-y-2">
-              <label for="password" class="block text-gray-700 font-medium text-sm uppercase tracking-wide">
-                Password
-              </label>
+              <label for="password" class="block text-gray-700 font-medium text-sm uppercase tracking-wide">Password</label>
               <div class="relative">
                 <input
                   type="password"
@@ -113,18 +104,12 @@
       <div class="w-full sm:w-1/2 bg-gradient-to-br from-gray-800 via-gray-700 to-gray-600 p-8 sm:p-10 md:p-12 lg:p-14 rounded-b-xl sm:rounded-r-xl sm:rounded-bl-none flex items-center justify-center">
         <div class="text-center space-y-6">
           <div class="bg-white/10 p-6 rounded-xl backdrop-blur-sm">
-            <h2 class="text-3xl font-bold mb-4 sm:text-4xl md:text-5xl lg:text-6xl text-white">
-              EventSync
-            </h2>
-            <p class="text-gray-200 text-lg sm:text-xl md:text-2xl">
-              Your Events, Simplified
-            </p>
+            <h2 class="text-3xl font-bold mb-4 sm:text-4xl md:text-5xl lg:text-6xl text-white">EventSync</h2>
+            <p class="text-gray-200 text-lg sm:text-xl md:text-2xl">Your Events, Simplified</p>
           </div>
           <div class="text-gray-300 text-sm">
             Don't have an account? 
-            <a href="#" class="text-white underline hover:text-gray-200 transition-colors duration-300">
-              Sign up
-            </a>
+            <a href="#" class="text-white underline hover:text-gray-200 transition-colors duration-300">Sign up</a>
           </div>
         </div>
       </div>
@@ -133,28 +118,24 @@
 </template>
 
 <script>
+import { reactive, ref, computed } from 'vue';
+
 export default {
   name: 'LoginScreen',
-  data() {
-    return {
-      loading: false,
-      error: '',
-      errors: {},
-      formData: {
-        email: 'brivahamisi@gmail.com',
-        password: 'defaultPassword123'
-      }
-    }
-  },
-  computed: {
-    hasErrors() {
-      return Object.keys(this.errors).length > 0;
-    }
-  },
-  methods: {
-    validateField(fieldName) {
-      const value = this.formData[fieldName];
-      const errors = {};
+  setup() {
+    const formData = reactive({
+      email: '',
+      password: '',
+    });
+
+    const errors = reactive({});
+
+    const loading = ref(false);
+    const error = ref('');
+
+    const validateField = (fieldName) => {
+      const value = formData[fieldName];
+      errors[fieldName] = '';
 
       switch (fieldName) {
         case 'email':
@@ -163,7 +144,7 @@ export default {
             errors[fieldName] = 'Please enter a valid email address';
           }
           break;
-        
+
         case 'password':
           if (!value) errors[fieldName] = 'Password is required';
           else if (value.length < 6) {
@@ -171,39 +152,29 @@ export default {
           }
           break;
       }
+    };
 
-      if (errors[fieldName]) {
-        this.$set(this.errors, fieldName, errors[fieldName]);
-      } else {
-        this.$delete(this.errors, fieldName);
-      }
-    },
+    const hasErrors = computed(() => Object.keys(errors).some(field => errors[field]));
 
-    validateForm() {
-      ['email', 'password'].forEach(field => this.validateField(field));
-      return Object.keys(this.errors).length === 0;
-    },
+    const handleClose = () => {
+      // Your logic to navigate away or close the component
+    };
 
-    handleClose() {
-      this.$router.push('/');
-      this.$emit('close');
-    },
-
-    async handleSubmit() {
-      if (!this.validateForm()) {
+    const handleSubmit = async () => {
+      if (!validateForm()) {
         return;
       }
 
       try {
-        this.loading = true;
-        this.error = '';
+        loading.value = true;
+        error.value = '';
 
         const response = await fetch('https://kucu-database.onrender.com/users/login', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify(this.formData)
+          body: JSON.stringify(formData),
         });
 
         const data = await response.json();
@@ -213,16 +184,31 @@ export default {
         }
 
         console.log('Login successful:', data);
-        this.$emit('login-success');
-        this.handleClose();
-
+        // Your logic to handle successful login
+        handleClose();
       } catch (err) {
-        this.error = err.message || 'An error occurred during login';
+        error.value = err.message || 'An error occurred during login';
         console.error('Login error:', err);
       } finally {
-        this.loading = false;
+        loading.value = false;
       }
-    }
-  }
-}
+    };
+
+    const validateForm = () => {
+      ['email', 'password'].forEach(field => validateField(field));
+      return !hasErrors.value;
+    };
+
+    return {
+      formData,
+      errors,
+      loading,
+      error,
+      validateField,
+      hasErrors,
+      handleClose,
+      handleSubmit,
+    };
+  },
+};
 </script>
