@@ -32,7 +32,10 @@
               <router-link :to="{ name: 'contact-us' }" active-class="text-theme-secondary">Contact Us</router-link>
             </li>
             <li class="uppercase bg-theme-secondary px-6 py-2 text-white rounded shadow-md hover:bg-white border-2 border-transparent hover:border-theme-secondary hover:text-theme-secondary cursor-pointer transition duration-200">
-              <router-link to="#">Register</router-link>
+              <router-link to="/register">Register</router-link>
+            </li>
+            <li class="uppercase bg-theme-secondary px-6 py-2 text-white rounded shadow-md hover:bg-white border-2 border-transparent hover:border-theme-secondary hover:text-theme-secondary cursor-pointer transition duration-200">
+              <router-link to="/login">Login</router-link>
             </li>
           </ul>
         </nav>
@@ -66,7 +69,10 @@
               <router-link @click="toggleMobileNav" :to="{ name: 'contact-us' }">Contact Us</router-link>
             </li>
             <li class="bg-[#cd3700] hover:bg-[#cd3700]/80 border-2 rounded px-6 py-2 mt-6 w-full text-center cursor-pointer transition duration-200">
-              <router-link @click="toggleMobileNav" to="#">Register</router-link>
+              <router-link @click="toggleMobileNav" to="/register">Register</router-link>
+            </li>
+            <li class="bg-[#cd3700] hover:bg-[#cd3700]/80 border-2 rounded px-6 py-2 mt-6 w-full text-center cursor-pointer transition duration-200">
+              <router-link @click="toggleMobileNav" to="/login">Login</router-link>
             </li>
           </ul>
           <div class="flex justify-center items-end h-52">
