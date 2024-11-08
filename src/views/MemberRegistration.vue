@@ -1,102 +1,102 @@
 <template>
-    <div class="min-h-screen w-full fixed inset-0 flex justify-center items-center bg-black overflow-y-auto">
-      <div class="w-full mx-6 my-8 sm:my-8 sm:mx-8 md:mx-auto flex flex-col sm:flex-row max-w-3xl lg:max-w-4xl shadow-2xl rounded-lg relative">
-        <!-- Close Button -->
-        <button 
-          @click="handleClose"
-          class="absolute -top-4 -right-4 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100 z-10"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
-  
-        <div class="w-full sm:w-1/2 bg-white p-6 sm:p-8 md:p-10 lg:p-12 rounded-l-lg max-h-[80vh] overflow-y-auto">
-          <h1 class="text-xl font-bold mb-4 md:text-2xl lg:text-3xl">Create Account</h1>
-          
-          <!-- Tab Headers -->
-          <div class="flex mb-6 border-b sticky top-0 bg-white">
+  <div class="min-h-screen w-full fixed inset-0 flex justify-center items-center bg-gray-900 overflow-y-auto">
+    <div class="w-full mx-6 my-8 sm:my-8 sm:mx-8 md:mx-auto flex flex-col sm:flex-row max-w-3xl lg:max-w-4xl shadow-2xl rounded-lg relative">
+      <!-- Close Button -->
+      <button 
+        @click="handleClose"
+        class="absolute -top-4 -right-4 bg-white rounded-full p-2 shadow-lg hover:bg-gray-200 transition duration-300 z-10"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+
+      <div class="w-full sm:w-1/2 bg-white p-6 sm:p-8 md:p-10 lg:p-12 rounded-l-lg max-h-[80vh] overflow-y-auto">
+        <h1 class="text-2xl font-bold mb-4 md:text-3xl lg:text-4xl">Create Your Account</h1>
+        
+        <!-- Tab Headers -->
+        <div class="flex mb-6 border-b sticky top-0 bg-white">
+          <button
+            v-for="(tab, index) in tabs"
+            :key="index"
+            class="py-2 px-4 focus:outline-none transition duration-300"
+            :class="activeTab === index ? 'border-b-2 border-blue-500 text-blue-500' : 'text-gray-500 hover:text-gray-800'"
+            @click="activeTab = index"
+          >
+            {{ tab.title }}
+          </button>
+        </div>
+
+        <form @submit.prevent="handleSubmit" class="space-y-4">
+          <!-- Form Fields -->
+          <div 
+            v-for="field in tabs[activeTab].fields" 
+            :key="field.name"
+            class="space-y-1"
+          >
+            <label :for="field.name" class="block text-gray-700 font-medium">
+              {{ field.label }} <span class="text-red-500">*</span>
+            </label>
+            <input
+              :type="field.type"
+              :id="field.name"
+              v-model="formData[field.name]"
+              :class="[
+                'w-full border rounded-lg py-2 px-3 focus:outline-none focus:ring focus:ring-blue-500',
+                errors[field.name] ? 'border-red-500' : 'border-gray-300'
+              ]"
+              :placeholder="`Enter your ${field.label.toLowerCase()}`"
+              @blur="validateField(field.name)"
+            />
+            <p v-if="errors[field.name]" class="text-red-500 text-sm mt-1">
+              {{ errors[field.name] }}
+            </p>
+          </div>
+
+          <!-- Error Message -->
+          <div v-if="error" class="text-red-500 text-sm p-3 bg-red-50 rounded-lg">
+            {{ error }}
+          </div>
+
+          <!-- Navigation Buttons -->
+          <div class="flex justify-between pt-4">
             <button
-              v-for="(tab, index) in tabs"
-              :key="index"
-              class="py-2 px-4 focus:outline-none"
-              :class="activeTab === index ? 'border-b-2 border-gray-800 text-gray-800' : 'text-gray-500'"
-              @click="activeTab = index"
+              v-if="activeTab > 0"
+              type="button"
+              @click="handlePrevious"
+              class="bg-gray-200 hover:bg-gray-300 text-gray-800 py-2 px-4 rounded-lg transition duration-300"
             >
-              {{ tab.title }}
+              Back
+            </button>
+            <button
+              v-if="activeTab < tabs.length - 1"
+              type="button"
+              @click="handleNext"
+              class="ml-auto bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg transition duration-300"
+            >
+              Next
+            </button>
+            <button
+              v-if="activeTab === tabs.length - 1"
+              type="submit"
+              :disabled="loading || hasErrors"
+              class="ml-auto bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg transition duration-300 disabled:opacity-50"
+            >
+              {{ loading ? 'Creating Account...' : 'Create Account' }}
             </button>
           </div>
-  
-          <form @submit.prevent="handleSubmit" class="space-y-4">
-            <!-- Form Fields -->
-            <div 
-              v-for="field in tabs[activeTab].fields" 
-              :key="field.name"
-              class="space-y-1"
-            >
-              <label :for="field.name" class="block text-gray-700 font-medium">
-                {{ field.label }} <span class="text-red-500">*</span>
-              </label>
-              <input
-                :type="field.type"
-                :id="field.name"
-                v-model="formData[field.name]"
-                :class="[
-                  'w-full border rounded-lg py-2 px-3 focus:outline-none focus:ring focus:ring-gray-900',
-                  errors[field.name] ? 'border-red-500' : 'border-gray-300'
-                ]"
-                :placeholder="`Enter your ${field.label.toLowerCase()}`"
-                @blur="validateField(field.name)"
-              />
-              <p v-if="errors[field.name]" class="text-red-500 text-sm mt-1">
-                {{ errors[field.name] }}
-              </p>
-            </div>
-  
-            <!-- Error Message -->
-            <div v-if="error" class="text-red-500 text-sm p-3 bg-red-50 rounded-lg">
-              {{ error }}
-            </div>
-  
-            <!-- Navigation Buttons -->
-            <div class="flex justify-between pt-4">
-              <button
-                v-if="activeTab > 0"
-                type="button"
-                @click="handlePrevious"
-                class="bg-gray-200 hover:bg-gray-300 text-gray-800 py-2 px-4 rounded-lg transition duration-300"
-              >
-                Back
-              </button>
-              <button
-                v-if="activeTab < tabs.length - 1"
-                type="button"
-                @click="handleNext"
-                class="ml-auto bg-gray-800 hover:bg-gray-900 text-white py-2 px-4 rounded-lg transition duration-300"
-              >
-                Next
-              </button>
-              <button
-                v-if="activeTab === tabs.length - 1"
-                type="submit"
-                :disabled="loading || hasErrors"
-                class="ml-auto bg-gray-800 hover:bg-gray-900 text-white py-2 px-4 rounded-lg transition duration-300 disabled:opacity-50"
-              >
-                {{ loading ? 'Creating Account...' : 'Create Account' }}
-              </button>
-            </div>
-          </form>
-        </div>
-  
-        <div class="w-full sm:w-1/2 bg-gray-800 p-6 sm:p-8 md:p-10 lg:p-12 flex items-center justify-center rounded-r-lg">
-          <div class="text-white text-center">
-            <h2 class="text-3xl font-bold mb-3 sm:text-4xl md:text-5xl lg:text-6xl">Join Us Today.</h2>
-            <p class="text-base sm:text-lg md:text-xl lg:text-2xl">Start your journey with EventSync.</p>
-          </div>
+        </form>
+      </div>
+
+      <div class="w-full sm:w-1/2 bg-gray-800 p-6 sm:p-8 md:p-10 lg:p-12 flex items-center justify-center rounded-r-lg">
+        <div class="text-white text-center">
+          <h2 class="text-3xl font-bold mb-3 sm:text-4xl md:text-5xl lg:text-6xl">Join Us Today.</h2>
+          <p class="text-base sm:text-lg md:text-xl lg:text-2xl">Start your journey with EventSync.</p>
         </div>
       </div>
     </div>
-  </template>
+  </div>
+</template>
   
   <script>
   export default {
