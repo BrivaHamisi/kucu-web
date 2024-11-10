@@ -5,6 +5,7 @@ import ContactView from '../views/ContactView.vue'
 import ResourcesView from '../views/ResourcesView.vue'
 import MemberRegistration from '@/views/MemberRegistration.vue'
 import Login from '@/views/Login.vue'
+import GivingForm from '@/views/GivingForm.vue'
 
 const routes = [
   {
@@ -44,6 +45,11 @@ const routes = [
     path: '/login',
     name: 'login',
     component: Login
+  },
+  {
+    path: '/give',
+    name: 'give',
+    component: GivingForm
   },
 ]
 
