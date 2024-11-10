@@ -1,97 +1,131 @@
 <template>
   <div class="min-h-screen w-full fixed inset-0 flex justify-center items-center bg-gray-900 overflow-y-auto">
-    <div class="w-full mx-6 my-8 sm:my-8 sm:mx-8 md:mx-auto flex flex-col sm:flex-row max-w-3xl lg:max-w-4xl shadow-2xl rounded-lg relative">
-      <!-- Close Button -->
-      <button 
-        @click="handleClose"
-        class="absolute -top-4 -right-4 bg-white rounded-full p-2 shadow-lg hover:bg-gray-200 transition duration-300 z-10"
+    <div class="w-full mx-6 my-8 sm:my-8 sm:mx-8 md:mx-auto max-w-3xl lg:max-w-4xl relative">
+      <!-- Success Notification -->
+      <transition
+        enter-active-class="transform transition duration-300 ease-out"
+        enter-from-class="-translate-y-4 opacity-0"
+        enter-to-class="translate-y-0 opacity-100"
+        leave-active-class="transform transition duration-200 ease-in"
+        leave-from-class="translate-y-0 opacity-100"
+        leave-to-class="-translate-y-4 opacity-0"
       >
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-        </svg>
-      </button>
-
-      <div class="w-full sm:w-1/2 bg-white p-6 sm:p-8 md:p-10 lg:p-12 rounded-l-lg max-h-[80vh] overflow-y-auto">
-        <h1 class="text-2xl font-bold mb-4 md:text-3xl lg:text-4xl">Sign Up</h1>
-        
-        <!-- Tab Headers -->
-        <div class="flex mb-6 border-b sticky top-0 bg-white">
-          <button
-            v-for="(tab, index) in tabs"
-            :key="index"
-            class="py-2 px-4 focus:outline-none transition duration-300"
-            :class="activeTab === index ? 'border-b-2 border-blue-500 text-blue-500' : 'text-gray-500 hover:text-gray-800'"
-            @click="activeTab = index"
+        <div
+          v-if="showSuccess"
+          class="absolute -top-20 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-6 py-3 rounded-lg shadow-xl z-50 flex items-center space-x-2 min-w-[300px] justify-center"
+        >
+          <svg 
+            xmlns="http://www.w3.org/2000/svg" 
+            class="h-6 w-6" 
+            fill="none" 
+            viewBox="0 0 24 24" 
+            stroke="currentColor"
           >
-            {{ tab.title }}
-          </button>
+            <path 
+              stroke-linecap="round" 
+              stroke-linejoin="round" 
+              stroke-width="2" 
+              d="M5 13l4 4L19 7"
+            />
+          </svg>
+          <span class="font-medium">Registration successful! Redirecting...</span>
+        </div>
+      </transition>
+
+      <!-- Main Card -->
+      <div class="flex flex-col sm:flex-row shadow-2xl rounded-lg relative">
+        <!-- Close Button -->
+        <button 
+          @click="handleClose"
+          class="absolute -top-4 -right-4 bg-white rounded-full p-2 shadow-lg hover:bg-gray-200 transition duration-300 z-10"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+
+        <div class="w-full sm:w-1/2 bg-white p-6 sm:p-8 md:p-10 lg:p-12 rounded-l-lg max-h-[80vh] overflow-y-auto">
+          <h1 class="text-2xl font-bold mb-4 md:text-3xl lg:text-4xl">Sign Up</h1>
+          
+          <!-- Tab Headers -->
+          <div class="flex mb-6 border-b sticky top-0 bg-white">
+            <button
+              v-for="(tab, index) in tabs"
+              :key="index"
+              class="py-2 px-4 focus:outline-none transition duration-300"
+              :class="activeTab === index ? 'border-b-2 border-blue-500 text-blue-500' : 'text-gray-500 hover:text-gray-800'"
+              @click="activeTab = index"
+            >
+              {{ tab.title }}
+            </button>
+          </div>
+
+          <form @submit.prevent="handleSubmit" class="space-y-4">
+            <!-- Form Fields -->
+            <div 
+              v-for="field in tabs[activeTab].fields" 
+              :key="field.name"
+              class="space-y-1"
+            >
+              <label :for="field.name" class="block text-gray-700 font-medium">
+                {{ field.label }} <span class="text-red-500">*</span>
+              </label>
+              <input
+                :type="field.type"
+                :id="field.name"
+                v-model="formData[field.name]"
+                :class="[
+                  'w-full border rounded-lg py-2 px-3 focus:outline-none focus:ring focus:ring-blue-500',
+                  errors[field.name] ? 'border-red-500' : 'border-gray-300'
+                ]"
+                :placeholder="`Enter your ${field.label.toLowerCase()}`"
+                @blur="validateField(field.name)"
+              />
+              <p v-if="errors[field.name]" class="text-red-500 text-sm mt-1">
+                {{ errors[field.name] }}
+              </p>
+            </div>
+
+            <!-- Error Message -->
+            <div v-if="error" class="text-red-500 text-sm p-3 bg-red-50 rounded-lg">
+              {{ error }}
+            </div>
+
+            <!-- Navigation Buttons -->
+            <div class="flex justify-between pt-4">
+              <button
+                v-if="activeTab > 0"
+                type="button"
+                @click="handlePrevious"
+                class="bg-gray-200 hover:bg-gray-300 text-gray-800 py-2 px-4 rounded-lg transition duration-300"
+              >
+                Back
+              </button>
+              <button
+                v-if="activeTab < tabs.length - 1"
+                type="button"
+                @click="handleNext"
+                class="ml-auto bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg transition duration-300"
+              >
+                Next
+              </button>
+              <button
+                v-if="activeTab === tabs.length - 1"
+                type="submit"
+                :disabled="loading || hasErrors"
+                class="ml-auto bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg transition duration-300 disabled:opacity-50"
+              >
+                {{ loading ? 'Creating Account...' : 'Create Account' }}
+              </button>
+            </div>
+          </form>
         </div>
 
-        <form @submit.prevent="handleSubmit" class="space-y-4">
-          <!-- Form Fields -->
-          <div 
-            v-for="field in tabs[activeTab].fields" 
-            :key="field.name"
-            class="space-y-1"
-          >
-            <label :for="field.name" class="block text-gray-700 font-medium">
-              {{ field.label }} <span class="text-red-500">*</span>
-            </label>
-            <input
-              :type="field.type"
-              :id="field.name"
-              v-model="formData[field.name]"
-              :class="[
-                'w-full border rounded-lg py-2 px-3 focus:outline-none focus:ring focus:ring-blue-500',
-                errors[field.name] ? 'border-red-500' : 'border-gray-300'
-              ]"
-              :placeholder="`Enter your ${field.label.toLowerCase()}`"
-              @blur="validateField(field.name)"
-            />
-            <p v-if="errors[field.name]" class="text-red-500 text-sm mt-1">
-              {{ errors[field.name] }}
-            </p>
+        <div class="w-full sm:w-1/2 bg-gray-800 p-6 sm:p-8 md:p-10 lg:p-12 flex items-center justify-center rounded-r-lg">
+          <div class="text-white text-center">
+            <h2 class="text-3xl font-bold mb-3 sm:text-4xl md:text-5xl lg:text-6xl">Sign Up Today.</h2>
+            <p class="text-base sm:text-lg md:text-xl lg:text-2xl">Start your journey with EventSync.</p>
           </div>
-
-          <!-- Error Message -->
-          <div v-if="error" class="text-red-500 text-sm p-3 bg-red-50 rounded-lg">
-            {{ error }}
-          </div>
-
-          <!-- Navigation Buttons -->
-          <div class="flex justify-between pt-4">
-            <button
-              v-if="activeTab > 0"
-              type="button"
-              @click="handlePrevious"
-              class="bg-gray-200 hover:bg-gray-300 text-gray-800 py-2 px-4 rounded-lg transition duration-300"
-            >
-              Back
-            </button>
-            <button
-              v-if="activeTab < tabs.length - 1"
-              type="button"
-              @click="handleNext"
-              class="ml-auto bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg transition duration-300"
-            >
-              Next
-            </button>
-            <button
-              v-if="activeTab === tabs.length - 1"
-              type="submit"
-              :disabled="loading || hasErrors"
-              class="ml-auto bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg transition duration-300 disabled:opacity-50"
-            >
-              {{ loading ? 'Creating Account...' : 'Create Account' }}
-            </button>
-          </div>
-        </form>
-      </div>
-
-      <div class="w-full sm:w-1/2 bg-gray-800 p-6 sm:p-8 md:p-10 lg:p-12 flex items-center justify-center rounded-r-lg">
-        <div class="text-white text-center">
-          <h2 class="text-3xl font-bold mb-3 sm:text-4xl md:text-5xl lg:text-6xl">Sign Up Today.</h2>
-          <p class="text-base sm:text-lg md:text-xl lg:text-2xl">Start your journey with EventSync.</p>
         </div>
       </div>
     </div>
@@ -99,6 +133,7 @@
 </template>
 
 <script setup>
+// Script remains the same as previous version
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 
@@ -107,6 +142,8 @@ const activeTab = ref(0)
 const loading = ref(false)
 const error = ref('')
 const errors = ref({})
+const showSuccess = ref(false)
+
 const formData = ref({
   username: '',
   email: '',
@@ -235,7 +272,7 @@ const handleSubmit = async () => {
       yoStudy: parseInt(formData.value.yoStudy)
     }
 
-    const response = await fetch('https://kucu-database.onrender.com/users', {
+    const response = await fetch('https://kucu-database.onrender.com/users/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -249,8 +286,15 @@ const handleSubmit = async () => {
       throw new Error(data.message || 'Registration failed')
     }
 
+    // Show success message
+    showSuccess.value = true
+    
+    // Wait for 2 seconds before redirecting
+    setTimeout(() => {
+      handleClose()
+    }, 2000)
+
     console.log('Registration successful:', data)
-    handleClose()
 
   } catch (err) {
     error.value = err.message || 'An error occurred during registration'
