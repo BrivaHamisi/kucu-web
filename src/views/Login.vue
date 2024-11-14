@@ -178,14 +178,18 @@ export default {
         });
 
         const data = await response.json();
+        if (data.token){
+          localStorage.setItem('token', JSON.stringify(data.token));
+          // Your logic to store the token and navigate to the home page or dashboard
 
-        if (!response.ok) {
+          console.log('Login successful:', data);
+        // Your logic to handle successful login
+        handleClose();
+        }
+        if (!data.token) {
           throw new Error(data.message || 'Login failed');
         }
 
-        console.log('Login successful:', data);
-        // Your logic to handle successful login
-        handleClose();
       } catch (err) {
         error.value = err.message || 'An error occurred during login';
         console.error('Login error:', err);

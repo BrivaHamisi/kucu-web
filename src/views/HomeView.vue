@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <HeroSection/>
-    <FeatureSection/>
+    <!-- <FeatureSection/> -->
     <Gallery/>
      <BlogsandInspiration/>
      <Testimonies/>
@@ -14,7 +14,6 @@
 
 import Footer from '../components/Footer.vue';
 import HeroSection from '../components/HeroSection.vue'
-import FeatureSection from '../components/MissionVisionSection.vue'
 import BlogsandInspiration from '../components/BlogsandInspiration.vue'
 import Gallery from '../components/Gallery.vue'
 import ContactUs from '../components/ContactUs.vue'
@@ -28,7 +27,6 @@ export default {
     Footer,
     BlogsandInspiration,
     Gallery,
-    FeatureSection,
     ContactUs,
     Testimonies
   }
