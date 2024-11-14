@@ -179,14 +179,15 @@
           })
   
           const data = await response.json()
+          console.log(data)
   
-          if (response.ok) {
+          if (data.transactionStatus.ResultCode === '0') {
             this.transactionStatus = {
               type: 'success',
               message: 'Giving Succesful'
             }
           } else {
-            throw new Error(data.message || 'Giving initiation failed')
+            throw new Error(data.message || 'Request Cancelled by User')
           }
         } catch (error) {
           this.transactionStatus = {
