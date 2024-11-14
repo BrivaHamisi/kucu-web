@@ -183,15 +183,15 @@
           if (response.ok) {
             this.transactionStatus = {
               type: 'success',
-              message: 'Please check your phone for the MPesa prompt to complete payment'
+              message: 'Giving Succesful'
             }
           } else {
-            throw new Error(data.message || 'Payment initiation failed')
+            throw new Error(data.message || 'Giving initiation failed')
           }
         } catch (error) {
           this.transactionStatus = {
             type: 'error',
-            message: `Payment failed: ${error.message}`
+            message: `Giving failed: ${error.message}`
           }
         } finally {
           this.isLoading = false
