@@ -119,10 +119,14 @@
 
 <script>
 import { reactive, ref, computed } from 'vue';
+import Swal from 'sweetalert2'
+import { useRouter } from 'vue-router';
 
 export default {
   name: 'LoginScreen',
   setup() {
+    const router = useRouter();
+
     const formData = reactive({
       email: '',
       password: '',
@@ -158,6 +162,7 @@ export default {
 
     const handleClose = () => {
       // Your logic to navigate away or close the component
+      router.push({name:'home'})
     };
 
     const handleSubmit = async () => {
@@ -181,9 +186,10 @@ export default {
         if (data.token){
           localStorage.setItem('token', JSON.stringify(data.token));
           // Your logic to store the token and navigate to the home page or dashboard
-
+          handleClose();
           console.log('Login successful:', data);
         // Your logic to handle successful login
+
         handleClose();
         }
         if (!data.token) {
@@ -193,6 +199,11 @@ export default {
       } catch (err) {
         error.value = err.message || 'An error occurred during login';
         console.error('Login error:', err);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: error.value,
+        });
       } finally {
         loading.value = false;
       }
