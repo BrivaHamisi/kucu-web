@@ -2,6 +2,7 @@
   <div class="home">
     <HeroSection/>
     <!-- <FeatureSection/> -->
+     <MissionVision/>
     <Gallery/>
      <BlogsandInspiration/>
      <Testimonies/>
@@ -18,6 +19,7 @@ import BlogsandInspiration from '../components/BlogsandInspiration.vue'
 import Gallery from '../components/Gallery.vue'
 import ContactUs from '../components/ContactUs.vue'
 import Testimonies from '../components/Testimonies.vue'
+import MissionVision from '../components/MissionVision.vue'
 
 
 export default {
@@ -25,6 +27,7 @@ export default {
   components: {
     HeroSection,
     Footer,
+    MissionVision,
     BlogsandInspiration,
     Gallery,
     ContactUs,
